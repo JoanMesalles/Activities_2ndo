@@ -1,4 +1,4 @@
-#include <../dep/inc/SDL>
+#include <SDL.h>
 #include <exception>
 #include <iostream>
 #include <string>
