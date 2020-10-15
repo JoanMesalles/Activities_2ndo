@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<enemies>
+	<enemie id="bowser">
+		<live>50</live>
+		<attack>10</attack>
+		<def>5</def>
+		<freq>0.5</freq>
+		<xp>500</xp>
+		<weapon name="fire">
+			<type>elemental</type>
+			<range>10</range>			
+		</weapon>
+	</enemie>
+	<enemie id="ganon">
+		<live>100</live>
+		<attack>50</attack>
+		<def>20</def>
+		<freq>0.8</freq>
+		<xp>1000</xp>
+		<weapon name="deathblade">
+			<type>melee</type>
+			<range>2</range>
+		</weapon>
+	</enemie>
+	<enemie id="ryan">
+		<live>10</live>
+		<attack>5</attack>
+		<def>5</def>
+		<freq>1.0</freq>
+		<xp>10</xp>
+		<weapon name="pistol">
+			<type>gun</type>
+			<range>2</range>
+		</weapon>
+	</enemie>
+	<enemie id ="tancardo">
+		<live>100</live>
+		<attack>6</attack>
+		<def>10</def>
+		<freq>0.7</freq>
+		<xp>100</xp>
+		<weapon name="tank">
+			<type>vehicle</type>
+			<range>2</range>
+		</weapon>
+	</enemie>
+
+</enemies>
