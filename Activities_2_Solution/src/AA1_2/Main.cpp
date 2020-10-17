@@ -42,6 +42,12 @@ int main(int, char* [])
 	if (bgTexture == nullptr)
 		throw "Error: bgTexture init";
 	SDL_Rect bgRect{ 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+
+	SDL_Texture* kintounTexture{ IMG_LoadTexture(m_renderer, "../../res/img/kintoun.pgn") };
+	if (kintounTexture == nullptr) {
+		throw "Error: kintounTexture init";
+	}
+	SDL_Rect kintounRect;
 	//-->Animated Sprite ---
 
 	// --- TEXT ---
@@ -65,6 +71,9 @@ int main(int, char* [])
 				if (event.key.keysym.sym == SDLK_ESCAPE)
 					isRunning = false;
 				break;
+			case SDL_MOUSEMOTION:
+
+
 			default:;
 			}
 		}
