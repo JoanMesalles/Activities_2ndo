@@ -1,0 +1,84 @@
+<?xml version ="1.0" encoding="utf-8"?>
+
+<enemies>
+  <enemy name="Paladin">
+    <live>100</live>
+    <damage>20</damage>
+    <shield>10</shield>
+    <hitSpeed>0.8</hitSpeed>
+    <exp>75</exp>
+    <weapons>
+      <weapon name="Bow">
+        <type>Ranged</type>
+        <range>15</range>
+      </weapon>
+      <weapon name="Stone">
+        <type>Ranged</type>
+        <range>5</range>
+      </weapon>
+      <weapon name="Sling">
+        <type>Ranged</type>
+        <range>10</range>
+      </weapon>
+    </weapons>
+  </enemy>
+
+  <enemy name="Wizard">
+    <live>80</live>
+    <damage>30</damage>
+    <shield>5</shield>
+    <hitSpeed>1.0</hitSpeed>
+    <exp>95</exp>
+    <weapons>
+      <weapon name="Wand">
+        <type>Magic</type>
+        <range>12</range>
+      </weapon>
+      <weapon name="Staff">
+        <type>Magic</type>
+        <range>17</range>
+      </weapon>
+    </weapons>
+  </enemy>
+
+  <enemy name="Ogre">
+    <live>200</live>
+    <damage>35</damage>
+    <shield>50</shield>
+    <hitSpeed>1.2</hitSpeed>
+    <exp>120</exp>
+    <weapons>
+      <weapon name="Hammer">
+        <type>Melee</type>
+        <range>1</range>
+      </weapon>
+      <weapon name="Axe">
+        <type>Melee</type>
+        <range>1</range>
+      </weapon>
+      <weapon name="Club">
+        <type>Melee</type>
+        <range>2</range>
+      </weapon>
+    </weapons>
+  </enemy>
+
+  <enemy name="Knight">
+    <live>120</live>
+    <damage>25</damage>
+    <shield>50</shield>
+    <hitSpeed>0.7</hitSpeed>
+    <exp>105</exp>
+    <weapons>
+      <weapon name="Sword">
+        <type>Melee</type>
+        <range>1</range>
+      </weapon>
+      <weapon name="Spear">
+        <type>Melee</type>
+        <range>3</range>
+      </weapon>
+    </weapons>
+  </enemy>
+  
+</enemies>
