@@ -1,4 +1,4 @@
-#include <SDL.h> // Always needs to be included for an SDL app
+ // Always needs to be included for an SDL app
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
@@ -7,9 +7,13 @@
 #include <iostream>
 #include <string>
 
+#include "Collisions.h"
+#include "SpritesHandler.h"
 //Game general information
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
+
+Rect RectSDL2My(SDL_Rect r) { return Rect(r.x, r.y, r.w, r.h); }
 
 int main(int, char* [])
 {
@@ -18,7 +22,6 @@ int main(int, char* [])
 		throw "No es pot inicialitzar SDL subsystems";
 
 	// --- WINDOW ---
-	//SDL_Window* m_window { SDL_CreateWindow("SDL...", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN) };
 	SDL_Window* m_window = SDL_CreateWindow("SDL...", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	if (m_window == nullptr)
 		throw "No es pot inicialitzar SDL_Window";
@@ -59,6 +62,13 @@ int main(int, char* [])
 	SDL_Point mousePos{ 0,0 };
 	//-->Animated Sprite ---
 
+	SDL_Texture* playerTexture = IMG_LoadTexture(m_renderer, "../../res/img/spCastle.png");
+	if (playerTexture == nullptr) throw "No s'han pogut crear les textures";
+	
+	SpritesHandler Player1Sprite( playerTexture, 12, 8, 4, 0);
+	SpritesHandler Player2Sprite(playerTexture, 12, 8, 7, 4);
+	Player2Sprite.SetSpritePos(200,200);
+
 	// --- TEXT ---
 #pragma region Text
   //Load fonts
@@ -74,23 +84,25 @@ int main(int, char* [])
 	tmpSurf = TTF_RenderText_Blended(font, "Play", SDL_Color{ 255,0,0,255 });
 	if (!tmpSurf) throw "No s'ha pogut crear la surface.";
 	SDL_Texture* playtextHover = SDL_CreateTextureFromSurface(m_renderer, tmpSurf);
-	SDL_FreeSurface(tmpSurf);
 
 	SDL_Rect playtextRect{ (SCREEN_WIDTH / 2 - tmpSurf->w / 2), 100, tmpSurf->w, tmpSurf->h };
 
+	SDL_FreeSurface(tmpSurf);
+
 	SDL_Texture* playtextTexture = playtextNormal;
 
-	tmpSurf = TTF_RenderText_Blended(font, "Quit", SDL_Color { 255,0,0,255 });
+	tmpSurf = TTF_RenderText_Blended(font, "Quit", SDL_Color { 0,255,0,255 });
 	if (!tmpSurf) throw "No s'ha pogut crear la surface.";
 	SDL_Texture* quittextNormal = SDL_CreateTextureFromSurface(m_renderer, tmpSurf);
 	SDL_FreeSurface(tmpSurf);
 
-	tmpSurf = TTF_RenderText_Blended(font, "Quit", SDL_Color{ 0,255,0,255 });
+	tmpSurf = TTF_RenderText_Blended(font, "Quit", SDL_Color{ 255,0,0,255 });
 	if (!tmpSurf) throw "No s'ha pogut crear la surface.";
 	SDL_Texture* quittextHover = SDL_CreateTextureFromSurface(m_renderer, tmpSurf);
-	SDL_FreeSurface(tmpSurf);
 
 	SDL_Rect quittextRect{ (SCREEN_WIDTH / 2 - tmpSurf->w / 2), 250, tmpSurf->w, tmpSurf->h };
+
+	SDL_FreeSurface(tmpSurf);
 
 	SDL_Texture* quittextTexture = quittextNormal;
 
@@ -102,9 +114,10 @@ int main(int, char* [])
 	tmpSurf = TTF_RenderText_Blended(font, "Sound Off", SDL_Color{ 255,69,0,255 });
 	if (!tmpSurf) throw "No s'ha pogut crear la surface.";
 	SDL_Texture* SoundtextOff = SDL_CreateTextureFromSurface(m_renderer, tmpSurf);
-	SDL_FreeSurface(tmpSurf);
 
 	SDL_Rect soundtextRect{ (SCREEN_WIDTH / 4 - tmpSurf->w / 2), 500, tmpSurf->w, tmpSurf->h };
+
+	SDL_FreeSurface(tmpSurf);
 
 	SDL_Texture* soundtextTexture = SoundtextOn;
 
@@ -120,20 +133,22 @@ int main(int, char* [])
 	Mix_Music* soundtrack{ Mix_LoadMUS("../../res/au/mainTheme.mp3") };
 	if (!soundtrack) throw "No s'ha pogut carregar l'audio";
 	Mix_PlayMusic(soundtrack, -1);
-	Mix_VolumeMusic(MIX_MAX_VOLUME / 2);
-	//Mix_PlayingMusic();
-	//Mix_PauseMusic();
-	//Mix_PausedMusic();
+	Mix_VolumeMusic(/*MIX_MAX_VOLUME / 4*/ 0);
 
 #pragma endregion
+	// --- GAME VARIABLES ---
+
 	bool isKeySPressed = false;
 	bool rightmousePressed = false;
+	InputData input;
+
 	// --- GAME LOOP ---
 	SDL_Event event;
 	bool isRunning = true;
 
 	while (isRunning)
 	{
+		input.SetFalseKeyDown();
 		// HANDLE EVENTS
 		while (SDL_PollEvent(&event))
 		{
@@ -142,59 +157,141 @@ int main(int, char* [])
 			case SDL_QUIT:
 				isRunning = false;
 				break;
+
 			case SDL_KEYDOWN:
-				if (event.key.keysym.sym == SDLK_ESCAPE)
+				switch (event.key.keysym.sym) 
+				{
+				case SDLK_ESCAPE:
 					isRunning = false;
-				if (event.key.keysym.sym == SDLK_s)
-					isKeySPressed = true;
-				break;
-			case SDL_MOUSEMOTION:
-				mousePos.x = event.motion.x;
-				mousePos.y = event.motion.y;
-				break;
-			case SDL_MOUSEBUTTONDOWN:
-				if (SDL_BUTTON_RIGHT) {
-					rightmousePressed = true;
+					break;
+				case SDLK_w:
+					input.SetKeyValue(InputKeys::W, true);
+					break;
+				case SDLK_d:
+					input.SetKeyValue(InputKeys::D, true);
+					break;
+				case SDLK_a:
+					input.SetKeyValue(InputKeys::A, true);
+					break;
+				case SDLK_s:
+					input.SetKeyValue(InputKeys::S, true);
+					break;
+				case SDLK_UP:
+					input.SetKeyValue(InputKeys::UPARROW, true);
+					break;
+				case SDLK_LEFT:
+					input.SetKeyValue(InputKeys::LEFTARROW, true);
+					break;
+				case SDLK_RIGHT:
+					input.SetKeyValue(InputKeys::RIGHTARROW, true);
+					break;
+				case SDLK_DOWN:
+					input.SetKeyValue(InputKeys::DOWNARROW, true);
+					break;
+				default:
+					break;
 				}
 				break;
-			default:
-				rightmousePressed = false;
+			case SDL_KEYUP:
+				switch (event.key.keysym.sym)
+				{
+				case SDLK_w:
+					input.SetKeyValue(InputKeys::W, false);
+					break;
+				case SDLK_d:
+					input.SetKeyValue(InputKeys::D, false);
+					break;
+				case SDLK_a:
+					input.SetKeyValue(InputKeys::A, false);
+					break;
+				case SDLK_s:
+					input.SetKeyValue(InputKeys::S, false);
+					break;
+				case SDLK_UP:
+					input.SetKeyValue(InputKeys::UPARROW, false);
+					break;
+				case SDLK_LEFT:
+					input.SetKeyValue(InputKeys::LEFTARROW, false);
+					break;
+				case SDLK_RIGHT:
+					input.SetKeyValue(InputKeys::RIGHTARROW, false);
+					break;
+				case SDLK_DOWN:
+					input.SetKeyValue(InputKeys::DOWNARROW, false);
+					break;
+				}
+				break;
+			case SDL_MOUSEMOTION:
+				input.SetMouseCoords(event.motion.x, event.motion.y);
+				break;
+			case SDL_MOUSEBUTTONDOWN:
+				if (event.button.button == SDL_BUTTON_LEFT) input.SetKeyValue(InputKeys::MOUSE_LEFT, true);
+				break;
+			case SDL_MOUSEBUTTONUP:
+				if (event.button.button == SDL_BUTTON_LEFT) input.SetKeyValue(InputKeys::MOUSE_LEFT, false);
+				break;
+			default:;
 			}
 		}
+
 		//*-*-*-*-*-*UPDATE
-		cursorRect.x += (mousePos.x - (cursorRect.w / 2) - cursorRect.x) / 10;
-		cursorRect.y += (mousePos.y - (cursorRect.h / 2) - cursorRect.y) / 10;
+		cursorRect.x += (((input.GetMouseCoords().x - (cursorRect.w / 2)) - cursorRect.x) / 10);
+		cursorRect.y += (((input.GetMouseCoords().y - (cursorRect.h / 2)) - cursorRect.y) / 10);
 
-		//if (isKeySPressed) playtextTexture = playtextHover;
-
-		if (mousePos.x > playtextRect.x && mousePos.x < (playtextRect.x + playtextRect.w) && mousePos.y > playtextRect.y && mousePos.y < (playtextRect.y + playtextRect.h) && rightmousePressed)
-		{
+		//Play Button
+		if (Collisions::ConfirmCollision(input.GetMouseCoords(), RectSDL2My(playtextRect))) {
 			playtextTexture = playtextHover;
+			if (input.JustPressed(InputKeys::MOUSE_LEFT)) { /*Play Logic*/ }
 		}
 		else playtextTexture = playtextNormal;
 
-		if (mousePos.x > quittextRect.x && mousePos.x < (quittextRect.x + quittextRect.w) && mousePos.y > quittextRect.y && mousePos.y < (quittextRect.y + quittextRect.h))
-		{
+		//Exit Button
+		if (Collisions::ConfirmCollision(input.GetMouseCoords(), RectSDL2My(quittextRect))) {
 			quittextTexture = quittextHover;
-
-			if (rightmousePressed) {
-				isRunning = false;
-			}
+			if (input.JustPressed(InputKeys::MOUSE_LEFT)) { isRunning = false; }
 		}
 		else quittextTexture = quittextNormal;
-
-		if (mousePos.x > soundtextRect.x && mousePos.x < (soundtextRect.x + soundtextRect.w) && mousePos.y > soundtextRect.y && mousePos.y < (soundtextRect.y + soundtextRect.h) && rightmousePressed )
-		{
-			if (Mix_PausedMusic()) {
-				Mix_PlayMusic(soundtrack, -1);
-				soundtextTexture = SoundtextOn;
+		//Sound Button
+		if (Collisions::ConfirmCollision(input.GetMouseCoords(), RectSDL2My(soundtextRect))) {
+			if (input.JustPressed(InputKeys::MOUSE_LEFT)) {
+				if (!Mix_PausedMusic()) Mix_PauseMusic();
+				else Mix_PlayMusic(soundtrack, -1);
 			}
-			else {
-				Mix_PauseMusic();
-				soundtextTexture = SoundtextOff;
-			}
+			soundtextTexture = Mix_PausedMusic() ? SoundtextOff : SoundtextOn;
 		}
+		else soundtextTexture = !Mix_PausedMusic() ? SoundtextOn : SoundtextOff;
+#pragma region SpritesLogic
+		if(input.IsPressed(InputKeys::W)) {
+			Player1Sprite.AnimatePlayer(InputKeys::W);
+		}
+		else if (input.IsPressed(InputKeys::D)) {
+			Player1Sprite.AnimatePlayer(InputKeys::D);
+		}
+		else if (input.IsPressed(InputKeys::A)) {
+			Player1Sprite.AnimatePlayer(InputKeys::A);
+		}
+		else if (input.IsPressed(InputKeys::S)) {
+			Player1Sprite.AnimatePlayer(InputKeys::S);
+		}
+		else
+			Player1Sprite.ResetToIdle();
 
+		if (input.IsPressed(InputKeys::UPARROW)) {
+			Player2Sprite.AnimatePlayer(InputKeys::UPARROW);
+		}
+		else if (input.IsPressed(InputKeys::LEFTARROW)) {
+			Player2Sprite.AnimatePlayer(InputKeys::LEFTARROW);
+		}
+		else if (input.IsPressed(InputKeys::RIGHTARROW)) {
+			Player2Sprite.AnimatePlayer(InputKeys::RIGHTARROW);
+		}
+		else if (input.IsPressed(InputKeys::DOWNARROW)) {
+			Player2Sprite.AnimatePlayer(InputKeys::DOWNARROW);
+		}
+		else
+			Player2Sprite.ResetToIdle();
+
+#pragma endregion
 		//*-*-*-*-*-*DRAW (no logic)
 		SDL_RenderClear(m_renderer);
 
@@ -205,6 +302,9 @@ int main(int, char* [])
 		SDL_RenderCopy(m_renderer, playtextTexture, nullptr, &playtextRect);
 		SDL_RenderCopy(m_renderer, quittextTexture, nullptr, &quittextRect);
 		SDL_RenderCopy(m_renderer, soundtextTexture, nullptr, &soundtextRect);
+		//Players
+		SDL_RenderCopy(m_renderer, playerTexture, &Player1Sprite.GetSpriteRect(), &Player1Sprite.GetSpritePos());
+		SDL_RenderCopy(m_renderer, playerTexture, &Player2Sprite.GetSpriteRect(), &Player2Sprite.GetSpritePos());
 		//Cursor
 		SDL_RenderCopy(m_renderer, cursorTexture, nullptr, &cursorRect);
 
@@ -214,6 +314,7 @@ int main(int, char* [])
 
 
 	// --- DESTROY ---
+	SDL_DestroyTexture(playerTexture);
 	SDL_DestroyTexture(playtextHover);
 	SDL_DestroyTexture(playtextTexture);
 	SDL_DestroyTexture(playtextNormal);
