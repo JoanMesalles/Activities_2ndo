@@ -15,4 +15,5 @@ public:
 	void ResetToIdle();
 	void SetSpritePos(int y, int x);
 	void SetFrameSpeed(int fs);
+	void MoveSprite(InputKeys key);
 };

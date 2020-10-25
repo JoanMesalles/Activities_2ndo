@@ -150,5 +150,54 @@ void SpritesHandler::SetFrameSpeed(int fs)
 {
 	frameSpeed = fs;
 }
+void SpritesHandler::MoveSprite(InputKeys key)
+{
+	switch (key)
+	{
+	case InputKeys::W:
+		if (sprtPos.y != 0) {
+			sprtPos.y -= 1;
+		}
+		break;
+	case InputKeys::A:
+		if (sprtPos.x != 0) {
+			sprtPos.x -= 1;
+		}
+		break;
+	case InputKeys::S:
+		if (sprtPos.y != SCREEN_HEIGHT - frameHeight) {
+			sprtPos.y += 1;
+		}
+		break;
+	case InputKeys::D:
+		if (sprtPos.x != SCREEN_WIDTH - frameWidht) {
+			sprtPos.x += 1;
+		}
+		break;
+	case InputKeys::UPARROW:
+		if (sprtPos.y != 0) {
+			sprtPos.y -= 1;
+		}
+		break;
+	case InputKeys::DOWNARROW:
+		if (sprtPos.y != SCREEN_HEIGHT - frameHeight) {
+			sprtPos.y += 1;
+		}
+		break;
+	case InputKeys::LEFTARROW:
+		if (sprtPos.x != 0) {
+			sprtPos.x -= 1;
+		}
+		break;
+	case InputKeys::RIGHTARROW:
+		if (sprtPos.x != SCREEN_WIDTH - frameWidht) {
+			sprtPos.x += 1;
+		}
+		break;
+	default:
+		break;
+
+	}
+}
 ;
 

@@ -10,8 +10,7 @@
 #include "Collisions.h"
 #include "SpritesHandler.h"
 //Game general information
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
+
 
 Rect RectSDL2My(SDL_Rect r) { return Rect(r.x, r.y, r.w, r.h); }
 
@@ -263,30 +262,38 @@ int main(int, char* [])
 #pragma region SpritesLogic
 		if(input.IsPressed(InputKeys::W)) {
 			Player1Sprite.AnimatePlayer(InputKeys::W);
+			Player1Sprite.MoveSprite(InputKeys::W);
 		}
 		else if (input.IsPressed(InputKeys::D)) {
 			Player1Sprite.AnimatePlayer(InputKeys::D);
+			Player1Sprite.MoveSprite(InputKeys::D);
 		}
 		else if (input.IsPressed(InputKeys::A)) {
 			Player1Sprite.AnimatePlayer(InputKeys::A);
+			Player1Sprite.MoveSprite(InputKeys::A);
 		}
 		else if (input.IsPressed(InputKeys::S)) {
 			Player1Sprite.AnimatePlayer(InputKeys::S);
+			Player1Sprite.MoveSprite(InputKeys::S);
 		}
 		else
 			Player1Sprite.ResetToIdle();
 
 		if (input.IsPressed(InputKeys::UPARROW)) {
 			Player2Sprite.AnimatePlayer(InputKeys::UPARROW);
+			Player2Sprite.MoveSprite(InputKeys::UPARROW);
 		}
 		else if (input.IsPressed(InputKeys::LEFTARROW)) {
 			Player2Sprite.AnimatePlayer(InputKeys::LEFTARROW);
+			Player2Sprite.MoveSprite(InputKeys::LEFTARROW);
 		}
 		else if (input.IsPressed(InputKeys::RIGHTARROW)) {
 			Player2Sprite.AnimatePlayer(InputKeys::RIGHTARROW);
+			Player2Sprite.MoveSprite(InputKeys::RIGHTARROW);
 		}
 		else if (input.IsPressed(InputKeys::DOWNARROW)) {
 			Player2Sprite.AnimatePlayer(InputKeys::DOWNARROW);
+			Player2Sprite.MoveSprite(InputKeys::DOWNARROW);
 		}
 		else
 			Player2Sprite.ResetToIdle();

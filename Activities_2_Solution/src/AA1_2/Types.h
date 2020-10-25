@@ -3,6 +3,8 @@
 #include <SDL.h>
 
 const int FPS = 60;
+#define SCREEN_WIDTH 800
+#define SCREEN_HEIGHT 600
 
 struct Vec2D
 {
