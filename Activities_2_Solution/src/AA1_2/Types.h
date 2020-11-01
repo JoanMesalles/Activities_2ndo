@@ -1,10 +1,19 @@
 #pragma once
 #include <math.h>
 #include <SDL.h>
+#include <time.h>
+#include <vector>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+#include <SDL_mixer.h>
+#include <exception>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
 
-const int FPS = 60;
-#define SCREEN_WIDTH 800
-#define SCREEN_HEIGHT 600
+enum class EDirection {NONE = -1, RIGHT, LEFT, UP, DOWN, COUNT};
+enum class GameState { PLAYING, MENU, EXIT };
 
 struct Vec2D
 {
@@ -15,12 +24,23 @@ struct Vec2D
 	Vec2D(int _xy) : x(_xy), y(_xy) {};
 
 
-	const Vec2D operator-(const Vec2D& v) { return Vec2D(x - v.x, y - v.y); };
+	inline bool operator== (const Vec2D& v)const { return (x == v.x && y == v.y); };
+	const Vec2D operator- (const Vec2D& v) { return Vec2D(x - v.x, y - v.y); };
+	const Vec2D operator+ (const Vec2D& v) { return Vec2D(x + v.x, y + v.y); };
+	Vec2D operator+= (const Vec2D& v) { x += v.x, y += v.y; return *this; };
+	const Vec2D operator/ (const Vec2D& v) { return Vec2D(x / v.x, y / v.y); };
+	const Vec2D operator/ (float a) const { return Vec2D(static_cast<int>(x) / a, static_cast<int>(y) / a); };
+	const Vec2D operator* (const Vec2D& v) { return Vec2D(x * v.x, y * v.y); };
+	const Vec2D operator* (float a) const { return Vec2D(static_cast<int>(x) * a, static_cast<int>(y) * a); };
+	const Vec2D operator* (int a) const { return Vec2D(x * a, y * a); };
+	const Vec2D operator*= (const Vec2D& v) { return Vec2D(x * v.x, y * v.y); };
+	const Vec2D operator*= (const int& i) { return Vec2D(x * i, y * i); };
 
-	//Magnitude
 	float mod() { return sqrt(x ^ 2 + y ^ 2); }
 	void setPoints(Vec2D v) { x = v.x; y = v.y;}
+	static Vec2D randomVec(int min, int max) { return Vec2D(rand() % ((max + 1) - min) + min, rand() % ((max + 1) - min) + min);};
 };
+
 
 struct Rect
 {
@@ -36,8 +56,9 @@ public:
 enum class InputKeys
 {
 	NONE, W, A, S, D , UPARROW, DOWNARROW, LEFTARROW, RIGHTARROW, SPACE, P, ESC,
-	MOUSE_LEFT, MOUSE_RIGHT, COUNT
+	MOUSE_LEFT, MOUSE_RIGHT, QUIT, COUNT
 };
+
 
 
 struct InputData
@@ -46,6 +67,7 @@ private:
 	bool keyboardPressed[(int)InputKeys::COUNT] = {};
 	bool keyboardDown[(int)InputKeys::COUNT] = {};
 	Vec2D mouseCoords;
+	Vec2D screenSize;
 
 public:
 	Vec2D GetMouseCoords() { return mouseCoords; };
@@ -53,6 +75,18 @@ public:
 	void SetMouseCoords(int x, int y) { mouseCoords = {x,y} ; };
 	bool IsPressed(InputKeys key) { return keyboardPressed[(int)key]; }
 	bool JustPressed(InputKeys key) { return keyboardDown[(int)key]; }
+	void SetScreenSize(Vec2D size) { screenSize = size; };
+	Vec2D* GetScreenSize() { return &screenSize; };
+	clock_t lastTime = clock();
+	float deltaTime = 0.f;
+
+	void UpdateDeltaTime() {
+		deltaTime = (clock() - lastTime);
+		lastTime = clock();
+		deltaTime /= CLOCKS_PER_SEC;
+	}
+	inline const float* GetDeltaTime() const { return &deltaTime; };
+
 	void SetFalseKeyDown()
 	{ 
 		for (int i = 0; i < (int)InputKeys::COUNT; i++) 
@@ -71,3 +105,6 @@ public:
 		keyboardPressed[(int)key] = value;
 	};
 };
+
+
+
