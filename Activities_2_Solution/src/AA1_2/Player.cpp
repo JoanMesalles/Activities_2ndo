@@ -5,9 +5,9 @@ Player::Player()
 {
 }
 
-void Player::Update(InputData* input, std::vector<Sack*>& sacks)
+void Player::Update(InputData* input, std::vector<Sack*>& sacks, std::vector<Player*> players)
 {
-	Move(input);
+	Move(input, players);
 	UpdateSprite();
 	UpdateCollisions(sacks, input);
 }
@@ -58,7 +58,7 @@ void Player::SetScore(int sc)
 	score = sc;
 }
 
-bool Player::Move(InputData* input)
+bool Player::Move(InputData* input, std::vector<Player*> players)
 {
 	dir = EDirection::NONE;
 	Vec2D newposition = {position.x,position.y};
@@ -103,11 +103,23 @@ bool Player::Move(InputData* input)
 		break;
 	default:
 		break;
-
 	}
 	if (newposition.x + position.w > input->GetScreenSize()->x || newposition.x < 0) newposition.x = position.x;
 	if (newposition.y + position.h > input->GetScreenSize()->y || newposition.y < 0) newposition.y = position.y;
 	if  (newposition.y < linelimit) newposition.y = position.y;
+
+	for (Player* pi : players) {
+		if(pi->GetType() != type){
+			if (Collisions::ConfirmCollision(Rect(newposition.x, newposition.y, position.w, position.h), pi->GetPosition())) {
+				//(rect1.x < rect2->x + rect2->w && rect1.x + rect1.w > rect2->x && rect1.y < rect2->y + rect2->h && rect1.y + rect1.h > rect2->y)
+				if(pi->GetPosition()->x + pi->GetPosition()->w > newposition.x || pi->GetPosition()->x < newposition.x + position.w)
+					newposition.x = position.x;
+				if (pi->GetPosition()->y + pi->GetPosition()->h > newposition.y || pi->GetPosition()->y < newposition.y + position.h)
+					newposition.y = position.y;
+			}
+		}
+	}
+
 
 	if (newposition.x != position.x || newposition.y != position.y) {
 		position.y = newposition.y;
