@@ -37,13 +37,6 @@ void Game::Run()
 	InitMenu();
 	InitGame();
 
-	// --- GAME VARIABLES ---
-	bool isKeySPressed = false;
-	bool rightmousePressed = false;
-	// --- GAME LOOP ---
-	SDL_Event event;
-	bool isRunning = true;
-
 	while (_gameState != GameState::EXIT)
 	{
 
@@ -66,8 +59,6 @@ void Game::Run()
 
 void Game::InitSDL()
 {
-
-
 	// --- INIT SDL ---
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
 		throw "No es pot inicialitzar SDL subsystems";
@@ -86,11 +77,9 @@ void Game::InitSDL()
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 
 	//Music
-
 	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
 		throw "No s'ha pogut inicialitzar SDL_Mixer";
 	}
-
 
 	//-->SDL_Image
 	const Uint8 imgFlags{ IMG_INIT_PNG | IMG_INIT_JPG };
@@ -113,6 +102,7 @@ void Game::InitMenu()
 	_Rects[Txtr_BG_Menu] = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 	_Textures[Txtr_BG_Game] = { IMG_LoadTexture(m_renderer, "../../res/img/bgCastle.jpg") };
 	_Rects[Txtr_BG_Game] = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+
 	//Cursor
 	_Textures[Txtr_Cursor] = { IMG_LoadTexture(m_renderer, "../../res/img/kintoun.png") };
 	_Rects[Txtr_Cursor] = { 0, 0, 100, 50 };
@@ -168,17 +158,13 @@ void Game::InitMenu()
 
 	_Textures[Txtr_BTN_Sound] = _Textures[Txtr_BTN_Sound_On];
 
-
-
 	TTF_CloseFont(font);
-
-
-
 
 }
 
 void Game::InitGame()
 {
+	//Players
 	int textWidth, textHeight;
 
 	_Textures[Txtr_Players] = IMG_LoadTexture(m_renderer, "../../res/img/spCastle.png");
@@ -189,24 +175,32 @@ void Game::InitGame()
 	AddPlayer(textWidth,textHeight,Player::PlayerType::PL1);
 	AddPlayer(textWidth, textHeight, Player::PlayerType::PL2);
 
-	// No Animated Sprites
+	// Sacks
 	_Textures[Txtr_Sacks] = IMG_LoadTexture(m_renderer, "../../res/img/gold.png");
 	if (_Textures[Txtr_Sacks] == nullptr) throw "No s'han pogut crear les textures";
 	SDL_QueryTexture(_Textures[Txtr_Sacks], NULL, NULL, &textWidth, &textHeight);
 
+	for (int i = 0; i < 10; i++) {
+		AddSacks();
+	}
+
+	//Score
 	_Textures[Txtr_SC] = IMG_LoadTexture(m_renderer, "../../res/img/num.png");
 	if (_Textures[Txtr_SC] == nullptr) throw "No s'han pogut crear les textures";
 	SDL_QueryTexture(_Textures[Txtr_SC], NULL, NULL, &textWidth, &textHeight);
 	_Rects[Txtr_SC] = { 50, 5, (textWidth/10)/ 2,textHeight/2 };
 	_Rects[F_Txtr_SC] = { 0,0, textWidth/10,textHeight};
 
+
+
 #pragma endregion
+	//Timmer
 	font_timmer = TTF_OpenFont("../../res/ttf/mono.ttf", 25);
 	std::string textTime = "Time: ";
 	surfTimer = { TTF_RenderText_Blended(font_timmer, textTime.c_str(), SDL_Color{0,0,0,255}) };
 	_Textures[Txtr_Time] = SDL_CreateTextureFromSurface(m_renderer, surfTimer);
 	_Rects[Txtr_Time] = { SCREEN_WIDTH - 150, 10, surfTimer->w, surfTimer->h };
-
+	//UI
 	std::string player1ScoreText = "P1: ";
 	SDL_Surface* surfPlayersScoreText{ TTF_RenderText_Blended(font_timmer, player1ScoreText.c_str(), SDL_Color{0,0,0,255}) };
 	_Textures[Txtr_Text_SC_P1] = SDL_CreateTextureFromSurface(m_renderer, surfPlayersScoreText);
@@ -219,9 +213,6 @@ void Game::InitGame()
 
 	SDL_FreeSurface(surfPlayersScoreText);
 
-	for (int i = 0; i < 10; i++) {
-		AddSacks();
-	}
 }
 
 void Game::UpdateInput()
@@ -351,6 +342,7 @@ void Game::RenderMenu()
 
 	//Background
 	SDL_RenderCopy(m_renderer, _Textures[Txtr_BG_Menu], nullptr, &_Rects[Txtr_BG_Menu]);
+
 	//Text
 	
 	SDL_RenderCopy(m_renderer, _Textures[Txtr_BTN_Play], nullptr, &_Rects[Txtr_BTN_Play]);
@@ -366,6 +358,8 @@ void Game::RenderMenu()
 void Game::RenderGame()
 {
 	SDL_RenderClear(m_renderer);
+
+	//BG
 
 	SDL_RenderCopy(m_renderer, _Textures[Txtr_BG_Game], nullptr, &_Rects[Txtr_BG_Game]);
 
@@ -388,11 +382,12 @@ void Game::RenderGame()
 			&MyRect2SDL(&Rect(_Rects[Txtr_SC].x + (_Rects[Txtr_SC].w * 1), _Rects[Txtr_SC].y + (_Rects[Txtr_SC].h * i), _Rects[Txtr_SC].w, _Rects[Txtr_SC].h)));
 	}
 
-
+	//Sacks
 	for (Sack* sack : sacks) {
 		SDL_RenderCopy(m_renderer, _Textures[Txtr_Sacks], nullptr, &MyRect2SDL(sack->GetPosition()));
 	}
 
+	//UI
 	SDL_RenderCopy(m_renderer, _Textures[Txtr_Time], nullptr, &_Rects[Txtr_Time]);
 	SDL_RenderCopy(m_renderer, _Textures[Txtr_Text_SC_P1], nullptr, &_Rects[Txtr_Text_SC_P1]);
 	SDL_RenderCopy(m_renderer, _Textures[Txtr_Text_SC_P2], nullptr, &_Rects[Txtr_Text_SC_P2]);
@@ -449,6 +444,7 @@ void Game::ResetGame()
 {
 	for (Player* pi : players) {
 		pi->SetScore(0);
+		//pi->reset
 	}
 	timeDown = totalGameTime;
 

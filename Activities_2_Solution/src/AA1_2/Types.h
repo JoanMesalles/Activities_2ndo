@@ -1,18 +1,9 @@
 #pragma once
-#include <math.h>
-#include <SDL.h>
-#include <time.h>
-#include <vector>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
-#include <SDL_mixer.h>
-#include <exception>
-#include <iostream>
-#include <string>
-#include <vector>
-#include <map>
+
+#include "Constants.h"
 
 enum class EDirection {NONE = -1, RIGHT, LEFT, UP, DOWN, COUNT};
+
 enum class GameState { PLAYING, MENU, EXIT };
 
 struct Vec2D
@@ -36,11 +27,11 @@ struct Vec2D
 	const Vec2D operator*= (const Vec2D& v) { return Vec2D(x * v.x, y * v.y); };
 	const Vec2D operator*= (const int& i) { return Vec2D(x * i, y * i); };
 
+
 	float mod() { return sqrt(x ^ 2 + y ^ 2); }
 	void setPoints(Vec2D v) { x = v.x; y = v.y;}
 	static Vec2D randomVec(int min, int max) { return Vec2D(rand() % ((max + 1) - min) + min, rand() % ((max + 1) - min) + min);};
 };
-
 
 struct Rect
 {
@@ -58,8 +49,6 @@ enum class InputKeys
 	NONE, W, A, S, D , UPARROW, DOWNARROW, LEFTARROW, RIGHTARROW, SPACE, P, ESC,
 	MOUSE_LEFT, MOUSE_RIGHT, QUIT, COUNT
 };
-
-
 
 struct InputData
 {
@@ -106,5 +95,21 @@ public:
 	};
 };
 
+struct Font {
+	const std::string id;
+	std::string path;
+	int size;
+};
+
+struct Color {
+	Uint8 r, g, b, a;
+};
 
 
+struct Text {
+	std::string id;
+	std::string text;
+	Color color;
+	int w;
+	int h;
+};

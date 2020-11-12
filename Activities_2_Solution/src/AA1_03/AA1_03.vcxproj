@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{29d9d1d6-3aef-455b-b000-0cb9eb33672d}</ProjectGuid>
-    <RootNamespace>AA12</RootNamespace>
+    <ProjectGuid>{ebda537f-c9a8-4cf1-8f94-62309948faad}</ProjectGuid>
+    <RootNamespace>AA103</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -143,20 +143,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Collisions.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Sack.cpp" />
+    <ClInclude Include="..\AA1_2\Collisions.h" />
+    <ClInclude Include="..\AA1_2\Constants.h" />
+    <ClInclude Include="..\AA1_2\Game.h" />
+    <ClInclude Include="..\AA1_2\Player.h" />
+    <ClInclude Include="..\AA1_2\Sack.h" />
+    <ClInclude Include="..\AA1_2\Types.h" />
+    <ClInclude Include="..\AA1_2\Utils.h" />
+    <ClInclude Include="Renderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Collisions.h" />
-    <ClInclude Include="Constants.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Sack.h" />
-    <ClInclude Include="Types.h" />
-    <ClInclude Include="Utils.h" />
+    <ClCompile Include="..\AA1_2\Collisions.cpp" />
+    <ClCompile Include="..\AA1_2\Game.cpp" />
+    <ClCompile Include="..\AA1_2\Main.cpp" />
+    <ClCompile Include="..\AA1_2\Player.cpp" />
+    <ClCompile Include="..\AA1_2\Sack.cpp" />
+    <ClCompile Include="Renderer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

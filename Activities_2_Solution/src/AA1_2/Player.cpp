@@ -3,6 +3,16 @@
 
 Player::Player()
 {
+	position.x = 0;
+	position.y = 0;
+	frame.x = 0;
+	frame.y = 0;
+	type = PlayerType::NONE;
+	dir = EDirection::NONE;
+	score = 0;
+	initCol = lastCol = initRow = lastRow =  0;
+	frameCount = 0;
+
 }
 
 void Player::Update(InputData* input, std::vector<Sack*>& sacks, std::vector<Player*> players)
@@ -106,12 +116,11 @@ bool Player::Move(InputData* input, std::vector<Player*> players)
 	}
 	if (newposition.x + position.w > input->GetScreenSize()->x || newposition.x < 0) newposition.x = position.x;
 	if (newposition.y + position.h > input->GetScreenSize()->y || newposition.y < 0) newposition.y = position.y;
-	if  (newposition.y < linelimit) newposition.y = position.y;
+	if (newposition.y < linelimit) newposition.y = position.y;
 
 	for (Player* pi : players) {
 		if(pi->GetType() != type){
 			if (Collisions::ConfirmCollision(Rect(newposition.x, newposition.y, position.w, position.h), pi->GetPosition())) {
-				//(rect1.x < rect2->x + rect2->w && rect1.x + rect1.w > rect2->x && rect1.y < rect2->y + rect2->h && rect1.y + rect1.h > rect2->y)
 				if(pi->GetPosition()->x + pi->GetPosition()->w > newposition.x || pi->GetPosition()->x < newposition.x + position.w)
 					newposition.x = position.x;
 				if (pi->GetPosition()->y + pi->GetPosition()->h > newposition.y || pi->GetPosition()->y < newposition.y + position.h)
