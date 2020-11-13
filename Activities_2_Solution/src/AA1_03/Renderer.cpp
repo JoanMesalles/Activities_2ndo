@@ -63,18 +63,18 @@ void Renderer::LoadTexture(const std::string& id, const std::string& path) {
 	m_textureData[id] = texture;
 };
 
-VEC2 Renderer::LoadTextureText(const std::string& fontId, Text text) {
+Vec2D Renderer::LoadTextureText(const std::string& fontId, Text text) {
 	SDL_Surface* tmpSurf = TTF_RenderText_Blended(m_fontData[fontId], text.text.c_str(), SDL_Color{ text.color.r, text.color.g, text.color.b,text.color.a });
 	if (tmpSurf == nullptr) throw "Unable to create the SDL text surface";
 	m_textureData[text.id] = SDL_CreateTextureFromSurface(m_renderer, tmpSurf); //hace un new
 	return { tmpSurf->w,tmpSurf->h };
 };
 
-void Renderer::LoadRect(const std::string& idRect, const RECT& rect) {
+void Renderer::LoadRect(const std::string& idRect, const Rect& rect) {
 	m_rects[idRect] = new SDL_Rect{ rect.x,rect.y,rect.w,rect.h };
 };
 
-VEC2 Renderer::GetTextureSize(const std::string& id) {
+Vec2D Renderer::GetTextureSize(const std::string& id) {
 	int w; int h;
 	SDL_QueryTexture(m_textureData[id], NULL, NULL, &w, &h);
 	return { w, h };
@@ -83,11 +83,22 @@ VEC2 Renderer::GetTextureSize(const std::string& id) {
 //Enseñarle a Aniol
 void Renderer::PushImage(const std::string& id, const std::string& idRect) {
 	SDL_RenderCopy(m_renderer, m_textureData[id], nullptr, m_rects[idRect]);
-};
+}
+
+void Renderer::PushImage(const std::string& id, const Rect* rectPos)
+{
+	SDL_RenderCopy(m_renderer, m_textureData[id], nullptr, &MyRect2SDL(rectPos));
+}
+;
 
 void Renderer::PushSprite(const std::string& id, const  std::string& idRectSprite, const  std::string& idRectPos) {
 
 	SDL_RenderCopy(m_renderer, m_textureData[id], m_rects[idRectSprite], m_rects[idRectPos]);
+}
+
+void Renderer::PushSprite(const std::string& id, const Rect* rectSprite, const Rect* rectPos)
+{
+	SDL_RenderCopy(m_renderer, m_textureData[id], &MyRect2SDL(rectSprite), &MyRect2SDL(rectPos));
 }
 
 void Renderer::PushRotatedSprite(const std::string& id, const std::string& idRectSprite, const std::string& idRectPos, float angle) {
@@ -104,3 +115,22 @@ void Renderer::SetRenderDrawColor(const Color& c)
 {
 	SDL_SetRenderDrawColor(m_renderer, c.r, c.g, c.b, 255);
 }
+
+void Renderer::PlusRectPosition(const std::string& id, int x, int y)
+{
+	m_rects[id]->x += x;
+	m_rects[id]->y += y;
+}
+
+Rect Renderer::GetRect(const std::string& id)
+{
+	return PtrRectSDL2My(m_rects[id]);
+}
+
+void Renderer::SetTextureFromTexture(const std::string& id1, const std::string& id2)
+{
+
+	m_textureData[id1] = m_textureData[id2];
+
+}
+

@@ -2,6 +2,9 @@
 
 #include "Player.h"
 #include "Sack.h" 
+#include "Renderer.h"
+#include "AudioManager.h"
+#include "InputManager.h"
 
 class Game
 {
@@ -9,20 +12,13 @@ private:
 	GameState _gameState;
 	InputData input;
 
-	SDL_Window* m_window;
-	SDL_Renderer* m_renderer;
-
-	
+	Renderer renderer;
 
 	std::vector<Player*> players;
 	std::vector<Sack*> sacks;
 	float timeDown, totalGameTime;
 
-	MTextures _Textures;
-	MRects _Rects;
-	TTF_Font* font_timmer = nullptr;
-	SDL_Surface* surfTimer = nullptr;
-	Mix_Music* soundtrack = nullptr;
+	AudioManager audioManager;
 
 public:
 	Game();
@@ -32,7 +28,6 @@ public:
 
 private:
 
-	void InitSDL();
 	void InitMenu();
 	void InitGame();
 
@@ -42,9 +37,6 @@ private:
 
 	void RenderMenu();
 	void RenderGame();
-
-	void CloseSDL();
-	void DestroyAllTextures();
 
 	void ResetGame();
 	void AddPlayer(int texWidth, int texHeight, Player::PlayerType type);

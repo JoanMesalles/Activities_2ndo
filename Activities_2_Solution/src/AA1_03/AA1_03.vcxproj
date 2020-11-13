@@ -18,10 +18,32 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="Collisions.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="InputManager.h" />
+    <ClInclude Include="Player.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Sack.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Collisions.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="Sack.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{ebda537f-c9a8-4cf1-8f94-62309948faad}</ProjectGuid>
+    <ProjectGuid>{7de4360d-dc37-494b-bdf9-7d436f7ed10a}</ProjectGuid>
     <RootNamespace>AA103</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -142,24 +164,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="..\AA1_2\Collisions.h" />
-    <ClInclude Include="..\AA1_2\Constants.h" />
-    <ClInclude Include="..\AA1_2\Game.h" />
-    <ClInclude Include="..\AA1_2\Player.h" />
-    <ClInclude Include="..\AA1_2\Sack.h" />
-    <ClInclude Include="..\AA1_2\Types.h" />
-    <ClInclude Include="..\AA1_2\Utils.h" />
-    <ClInclude Include="Renderer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\AA1_2\Collisions.cpp" />
-    <ClCompile Include="..\AA1_2\Game.cpp" />
-    <ClCompile Include="..\AA1_2\Main.cpp" />
-    <ClCompile Include="..\AA1_2\Player.cpp" />
-    <ClCompile Include="..\AA1_2\Sack.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

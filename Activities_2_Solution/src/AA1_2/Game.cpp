@@ -1,6 +1,7 @@
 #include "Game.h"
 
 Game::Game()
+
 {
 	srand(time(NULL));
 	m_window = nullptr;
