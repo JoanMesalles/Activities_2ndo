@@ -42,9 +42,6 @@
     <ClInclude Include="AudioManager.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Collisions.cpp">
@@ -66,9 +63,6 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="AudioManager.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>

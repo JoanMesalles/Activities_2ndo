@@ -4,7 +4,6 @@
 #include "Sack.h" 
 #include "Renderer.h"
 #include "AudioManager.h"
-#include "InputManager.h"
 
 class Game
 {

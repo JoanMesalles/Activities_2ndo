@@ -3,19 +3,10 @@
 Game::Game()
 {
 	srand(time(NULL));
-	//m_window = nullptr;
-	//m_renderer = nullptr;
-
 
 	timeDown = totalGameTime = 80.f;
 
 	_gameState = GameState::MENU;
-
-	//InitSDL();
-
-	//Music
-	//-->SDL_Mix
-
 
 	input = InputData();
 	input.SetScreenSize(Vec2D(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -24,11 +15,6 @@ Game::Game()
 
 Game::~Game()
 {
-	//renderer.~Renderer();
-	//SDL_FreeSurface(surfTimer);
-	//TTF_CloseFont(font_timmer);
-	//DestroyAllTextures();
-	//CloseSDL();
 }
 
 void Game::Run()
@@ -271,13 +257,14 @@ void Game::UpdateGame()
 		_gameState = GameState::EXIT;
 	}
 
+	for (Player* pi : players) {
+		pi->Update(&input, sacks, players);
+	}
 	if (input.JustPressed(InputKeys::ESC)) {
 		ResetGame();
 		_gameState = GameState::MENU;
 	}
-	for (Player* pi : players) {
-		pi->Update(&input, sacks,players);
-	}
+
 
 	//Update Timer
 	if (_gameState == GameState::PLAYING) {
@@ -358,12 +345,11 @@ void Game::RenderGame()
 	renderer.Render();
 }
 
-
 void Game::ResetGame()
 {
 	for (Player* pi : players) {
 		pi->SetScore(0);
-		//pi->reset
+		pi->Reset();
 	}
 	timeDown = totalGameTime;
 

@@ -9,6 +9,7 @@ public:
 	enum class PlayerType {NONE = -1, PL1, PL2, COUNT};
 private:
 	Rect position;
+	Rect initialPositionP1, initialPositionP2;
 	Rect frame;
 	PlayerType type;
 	EDirection dir = EDirection::NONE;
@@ -26,6 +27,7 @@ public:
 	int GetScore() { return score; };
 	void SetScore(int sc);
 	PlayerType GetType() { return type; };
+	void Reset();
 
 private:
 	bool Move(InputData* input, std::vector<Player*> players);

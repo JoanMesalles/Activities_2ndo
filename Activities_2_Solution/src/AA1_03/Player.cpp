@@ -37,10 +37,10 @@ void Player::SetPlayerValues(int textWidth, int textHeight, int nCol, int nRow, 
 		lastRow = initRow + 4;
 		frame.x = frame.w * initCol;
 		frame.y = frame.y * initRow;
-		position.w = frame.w * 1.5;
-		position.h = frame.h * 1.5;
-		position.x = 100;
-		position.y = 200;
+		position.w = initialPositionP1.w = frame.w * 1.5;
+		position.h = initialPositionP1.h = frame.h * 1.5;
+		position.x = initialPositionP1.x = 50;
+		position.y = initialPositionP1.y = 200;
 		break;
 	case Player::PlayerType::PL2:
 		initCol = 6;
@@ -49,10 +49,10 @@ void Player::SetPlayerValues(int textWidth, int textHeight, int nCol, int nRow, 
 		lastRow = initRow + 4;
 		frame.x = frame.w * initCol;
 		frame.y = frame.y * initRow;
-		position.w = frame.w * 1.5;
-		position.h = frame.h * 1.5;
-		position.x = 400;
-		position.y = 200;
+		position.w = initialPositionP2.w = frame.w * 1.5;
+		position.h = initialPositionP2.h = frame.h * 1.5;
+		position.x = initialPositionP2.x = 700;
+		position.y = initialPositionP2.y = 200;
 		break;
 	default:
 		frame.x = 0;
@@ -66,6 +66,21 @@ void Player::SetPlayerValues(int textWidth, int textHeight, int nCol, int nRow, 
 void Player::SetScore(int sc)
 {
 	score = sc;
+}
+
+void Player::Reset()
+{
+	switch (type)
+	{
+	case Player::PlayerType::PL1:
+		position = initialPositionP1;
+		break;
+	case Player::PlayerType::PL2:
+		position = initialPositionP2;
+		break;
+	default:
+		break;
+	}
 }
 
 bool Player::Move(InputData* input, std::vector<Player*> players)
