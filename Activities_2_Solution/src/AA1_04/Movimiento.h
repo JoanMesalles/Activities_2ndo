@@ -3,6 +3,6 @@
 
 class Movimiento {
 	static int numMovs;
-	Coordenada * inicial;
-	Coordenada * destino;
+	Coordenada* inicial;
+	Coordenada* destino;
 };

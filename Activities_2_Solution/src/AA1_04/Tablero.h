@@ -4,5 +4,6 @@
 #include <vector>
 
 class Tablero {
-	std::vector<Casilla *> casillas;
+	std::vector<Casilla*>* casillas;
+	casillas = new std::vector<Casilla*>;
 };

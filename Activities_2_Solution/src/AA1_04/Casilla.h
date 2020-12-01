@@ -2,5 +2,5 @@
 #include "Coordenada.h"
 
 class Casilla {
-	Coordenada * coordenada;
+	Coordenada* coordenada;
 };
