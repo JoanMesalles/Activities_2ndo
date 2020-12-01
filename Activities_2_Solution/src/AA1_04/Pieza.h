@@ -2,5 +2,5 @@
 class Pieza {
 	
 public:
-	void mover();
+	virtual void mover() = 0;
 };

@@ -9,5 +9,5 @@ const int K_MAX_MOVS = 99;
 class Partida {
 	Pieza * piezas[K_MAX_PIEZAS];
 	Tablero * tablero;
-	std::vector<Movimiento *> movimientos; //Falta poner que sea entre 0 i K_MAX_MOVS
+	std::vector<Movimiento *> movimientos; //Falta max: K_MAX_MOVS
 };

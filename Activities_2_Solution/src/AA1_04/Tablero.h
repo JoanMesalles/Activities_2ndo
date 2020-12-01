@@ -4,6 +4,5 @@
 #include <vector>
 
 class Tablero {
-	Casilla* casilla; //Esta es la casilla 1 obligatoria
 	std::vector<Casilla *> casillas;
 };

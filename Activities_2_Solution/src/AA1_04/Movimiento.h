@@ -2,7 +2,7 @@
 #include "Coordenada.h"
 
 class Movimiento {
-	int numMovs;
+	static int numMovs;
 	Coordenada * inicial;
 	Coordenada * destino;
 };
