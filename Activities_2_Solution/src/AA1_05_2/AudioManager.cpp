@@ -47,3 +47,4 @@ void AudioManager::PlayMusic()
 {
 	Mix_PlayMusic(soundtrack, -1);
 }
+

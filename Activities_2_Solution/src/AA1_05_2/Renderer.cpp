@@ -52,7 +52,6 @@ Renderer* Renderer::getInstance()
 	}
 	return renderer;
 }
-;
 
 void Renderer::Clear() { SDL_RenderClear(m_renderer); };
 
@@ -87,7 +86,6 @@ Vec2D Renderer::GetTextureSize(const std::string& id) {
 	return { w, h };
 };
 
-//Enseñarle a Aniol
 void Renderer::PushImage(const std::string& id, const std::string& idRect) {
 	SDL_RenderCopy(m_renderer, m_textureData[id], nullptr, m_rects[idRect]);
 }
@@ -139,4 +137,3 @@ void Renderer::SetTextureFromTexture(const std::string& id1, const std::string& 
 	m_textureData[id1] = m_textureData[id2];
 
 }
-

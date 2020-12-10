@@ -1,7 +1,7 @@
 #pragma once
-
-#include "AudioManager.h"
 #include "Types.h"
+#include "Menu.h"
+#include "Play.h"
 #include "Scene.h"
 
 enum class GameState { PLAYING, MENU, EXIT };
@@ -10,20 +10,13 @@ class Game
 {
 private:
 	GameState _gameState;
-	float timeDown, totalGameTime;
-
-	std::string s  = F2StrFormat(timeDown, 0);
-
+	Scene* scene;
 public:
 	Game();
 	~Game();
 
 	void Run();
 
-private:
-
-	void UpdateInput();
-	void ResetGame();
-
 };
+
 

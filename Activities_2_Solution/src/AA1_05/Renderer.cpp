@@ -1,6 +1,8 @@
 #include "Renderer.h"
 
-Renderer* Renderer::renderer = nullptr;
+//TODO quiero una referencia o ahora quiero un nombre ...
+//ERROR ....
+//const SDL_Rect* Renderer::Rect2SDL(const RECT* r) { return { r->x, r->y, r->w, r->h }; }
 
 Renderer::Renderer()
 {
@@ -43,16 +45,7 @@ Renderer::~Renderer()
 	TTF_Quit();
 	SDL_Quit();
 
-}
-
-Renderer* Renderer::getInstance()
-{
-	if (renderer == nullptr) {
-		renderer = new Renderer;
-	}
-	return renderer;
-}
-;
+};
 
 void Renderer::Clear() { SDL_RenderClear(m_renderer); };
 

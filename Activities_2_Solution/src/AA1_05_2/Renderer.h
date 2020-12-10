@@ -31,7 +31,7 @@ public:
 	void PushImage(const std::string& id, const std::string& idRect);
 	void PushImage(const std::string& id, const Rect* rectPos);
 	void PushSprite(const std::string& id, const std::string& idRectSprite, const std::string& idRectPos);
-	void PushSprite(const std::string& id, const Rect*  rectSprite, const Rect* rectPos);
+	void PushSprite(const std::string& id, const Rect* rectSprite, const Rect* rectPos);
 	void PushRotatedSprite(const std::string& id, const std::string& idRectSprite, const std::string& idRectPos, float angle);
 	void SetRenderDrawColor(int r, int g, int b);
 	void SetRenderDrawColor(const Color& c);

@@ -2,6 +2,13 @@
 
 #include "Constants.h"
 
+
+enum class InputKeys
+{
+	NONE, W, A, S, D, UPARROW, DOWNARROW, LEFTARROW, RIGHTARROW, SPACE, P, ESC,
+	MOUSE_LEFT, MOUSE_RIGHT, QUIT, COUNT
+};
+
 enum class ESceneState { NONE = -1, RUNNING, GO_PLAY, GO_MENU, GO_EXIT };
 
 struct Vec2D
@@ -27,8 +34,8 @@ struct Vec2D
 
 
 	float mod() { return sqrt(x ^ 2 + y ^ 2); }
-	void setPoints(Vec2D v) { x = v.x; y = v.y;}
-	static Vec2D randomVec(int min, int max) { return Vec2D(rand() % ((max + 1) - min) + min, rand() % ((max + 1) - min) + min);};
+	void setPoints(Vec2D v) { x = v.x; y = v.y; }
+	static Vec2D randomVec(int min, int max) { return Vec2D(rand() % ((max + 1) - min) + min, rand() % ((max + 1) - min) + min); };
 };
 
 struct Rect
@@ -64,4 +71,4 @@ struct Text {
 
 	Text(std::string _id, std::string _text, Color _color) : id(_id), text(_text), color(_color) {};
 
-};
+}; 

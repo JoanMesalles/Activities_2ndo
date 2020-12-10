@@ -1,8 +1,6 @@
 #pragma once
 #include "Collisions.h"
 
-enum class EDirection { NONE = -1, RIGHT, LEFT, UP, DOWN, COUNT };
-
 class Sack;
 
 class Player
