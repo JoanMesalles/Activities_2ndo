@@ -166,7 +166,7 @@ bool BT::IsBalanced(Node* current, int margin)
 	int r = Height(current->right);
 
 	if (l == 0 && r == 0) return true; //Este nodo esta balanceado y no necesita comprobar hijos
-	if ((l - r <= margin && l - r >= -margin) || l == 0 || r == 0) //Este nodo esta balanceado
+	if ((l - r <= 1 && l - r >= -1) || l == 0 || r == 0) //Este nodo esta balanceado
 	{
 		bool l = true;
 		bool r = true;
