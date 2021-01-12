@@ -30,7 +30,7 @@ private:
 	void PostOrder(Node *n);
 	Node* Search(Node* n, int key);
 	int Height(Node* n);
-	bool IsBalanced(Node* n);
+	bool IsBalanced(Node*, int);
 
 
 public:
@@ -62,7 +62,7 @@ public:
 
 	//Devuelve true si el árbol está balanceado
 	//Devuleve false si no
-	bool IsBalanced();	//Implementar (AA106)
+	bool IsBalanced(int);	//Implementar (AA106)
 
 	//Devuelve el máximo de las claves
 	int Max(); //Implementar (AA106)

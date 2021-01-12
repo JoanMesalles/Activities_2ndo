@@ -156,13 +156,81 @@ int BT::Height(Node* n)
 
 
 //Implementar (AA106)
-bool BT::IsBalanced() {
-	return IsBalanced(root);
+bool BT::IsBalanced(int margin) {
+	return IsBalanced(root, margin);
 }
 
-bool BT::IsBalanced(Node* n)
+bool BT::IsBalanced(Node* current, int margin)
 {
-	return false;
+	int l = Height(current->left);
+	int r = Height(current->right);
+
+	if (l == 0 && r == 0) return true; //Este nodo esta balanceado y no necesita comprobar hijos
+	if ((l - r <= margin && l - r >= -margin) || l == 0 || r == 0) //Este nodo esta balanceado
+	{
+		bool l = true;
+		bool r = true;
+		if(current->left)
+			l = IsBalanced(current->left, margin);
+		if(current->right)
+			r = IsBalanced(current->right, margin);
+		if (l && r)
+			return true;
+		else return false;
+	}
+	else return false;
+
+
+	/*
+
+	bool l = IsBalanced(current->left);
+	bool r = IsBalanced(current->right);
+
+	//
+	if (!current) return true;
+	bool l = IsBalanced(current->left);
+	bool r = IsBalanced(current->right);
+
+
+	//
+	bool toulti = false;
+	if (!n->left) toulti = true;
+	if (!n->right) toulti = true;
+
+	bool l, r = false;
+	if (n->left)
+		l = IsBalanced(n->left, toulti);
+	if (n->right)
+		r = IsBalanced(n->right, toulti);
+
+	if (l || r) return true;
+	//
+
+
+	if (ultimatum && !n->left && !n->right)
+		return true;
+	bool l, r = false;
+	if (!current->left)
+		if (current->right)
+			return IsBalanced(current->right, true);
+	else
+		l = IsBalanced(current->right, false);
+	if (!current->right)
+		if (current->left)
+			return IsBalanced(current->left, true);
+	else
+		r = IsBalanced(current->left, false);
+	if (l && r) return true;
+
+
+	//
+	if (!n->left && n->right)
+		return IsBalanced(n->right, true);
+	if (n->left && !n->right)
+		return IsBalanced(n->left, true);
+	if (ultimatum && !n->left && !n->right)
+		return true;
+		*/
 }
 
 //Implementar (AA106)
