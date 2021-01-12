@@ -2,9 +2,7 @@
 
 #include "Constants.h"
 
-enum class EDirection {NONE = -1, RIGHT, LEFT, UP, DOWN, COUNT};
-
-enum class GameState { PLAYING, MENU, EXIT };
+enum class ESceneState { NONE = -1, RUNNING, GO_PLAY, GO_MENU, GO_EXIT };
 
 struct Vec2D
 {
@@ -44,57 +42,6 @@ public:
 
 };
 
-enum class InputKeys
-{
-	NONE, W, A, S, D , UPARROW, DOWNARROW, LEFTARROW, RIGHTARROW, SPACE, P, ESC,
-	MOUSE_LEFT, MOUSE_RIGHT, QUIT, COUNT
-};
-
-struct InputData
-{
-private:
-	bool keyboardPressed[(int)InputKeys::COUNT] = {};
-	bool keyboardDown[(int)InputKeys::COUNT] = {};
-	Vec2D mouseCoords;
-	Vec2D screenSize;
-
-public:
-	Vec2D GetMouseCoords() { return mouseCoords; };
-	void SetMouseCoords(Vec2D v) { mouseCoords.setPoints(v); };
-	void SetMouseCoords(int x, int y) { mouseCoords = {x,y} ; };
-	bool IsPressed(InputKeys key) { return keyboardPressed[(int)key]; }
-	bool JustPressed(InputKeys key) { return keyboardDown[(int)key]; }
-	void SetScreenSize(Vec2D size) { screenSize = size; };
-	Vec2D* GetScreenSize() { return &screenSize; };
-	clock_t lastTime = clock();
-	float deltaTime = 0.f;
-
-	void UpdateDeltaTime() {
-		deltaTime = (clock() - lastTime);
-		lastTime = clock();
-		deltaTime /= CLOCKS_PER_SEC;
-	}
-	inline const float* GetDeltaTime() const { return &deltaTime; };
-
-	void SetFalseKeyDown()
-	{ 
-		for (int i = 0; i < (int)InputKeys::COUNT; i++) 
-		{ 
-			keyboardDown[i] = false; 
-		}; 
-	};
-	void SetKeyValue(InputKeys key, bool value) 
-	{
-		if (!keyboardPressed[(int)key]) {
-			keyboardDown[(int)key] = value;
-		}
-		else {
-			keyboardDown[(int)key] = false;
-		}
-		keyboardPressed[(int)key] = value;
-	};
-};
-
 struct Font {
 	const std::string id;
 	std::string path;
@@ -109,7 +56,6 @@ struct Color {
 	Color(Uint8 _r, Uint8 _g, Uint8 _b, Uint8 _a) : r(_r), g(_g), b(_b), a(_a) {};
 
 };
-
 
 struct Text {
 	std::string id;

@@ -19,16 +19,15 @@ private:
 	float frameCount = 0;
 public:
 	Player();
-	void Update(InputData* input, std::vector<Sack*>& sacks, std::vector<Player*> players);
+	void Update(InputData* input, std::vector<Sack*>& sacks);
 	const Rect* GetPosition() { return &position; };
 	const Rect* GetFrame() { return &frame; };
 	void SetPlayerValues(int textWidth, int textHeight, int nCol, int nRow, PlayerType _type);
 	int GetScore() { return score; };
 	void SetScore(int sc);
-	PlayerType GetType() { return type; };
 
 private:
-	bool Move(InputData* input, std::vector<Player*> players);
+	bool Move(InputData* input);
 	void UpdateSprite();
 	void UpdateCollisions(std::vector<Sack*>& sacks, InputData* input);
 };

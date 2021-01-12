@@ -8,23 +8,24 @@
 //SDL
 class Renderer {
 
-private:
+	static Renderer* renderer;
 	SDL_Renderer* m_renderer = nullptr;
 	SDL_Window* m_window = nullptr;
 	std::unordered_map<std::string, SDL_Texture*> m_textureData;
 	std::unordered_map<std::string, TTF_Font*> m_fontData;
 	std::unordered_map<std::string, SDL_Rect*> m_rects;
+	Renderer();
+
 
 public:
 
-	Renderer();
 	~Renderer();
+	static Renderer* getInstance();
 	void Clear();
 	void Render();
 	void LoadFont(const Font& font);
 	void LoadTexture(const std::string& id, const std::string& path);
 	void LoadRect(const std::string& idRect, const Rect& rect);
-	//sobrecargar ... para que devuelva
 	Vec2D LoadTextureText(const std::string& fontId, Text text);
 	Vec2D GetTextureSize(const std::string& id);
 	void PushImage(const std::string& id, const std::string& idRect);

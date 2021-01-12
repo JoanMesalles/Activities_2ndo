@@ -1,5 +1,6 @@
 #include "Game.h"
 
+
 Game::Game()
 
 {
@@ -7,18 +8,11 @@ Game::Game()
 	m_window = nullptr;
 	m_renderer = nullptr;
 
-
-	timeDown = totalGameTime = 80.f;
+	timeDown = totalGameTime = 60.f;
 
 	_gameState = GameState::MENU;
 
 	InitSDL();
-
-	//Music
-	soundtrack = { Mix_LoadMUS("../../res/au/mainTheme.mp3") };
-	if (!soundtrack) throw "No s'ha pogut carregar l'audio";
-	Mix_PlayMusic(soundtrack, -1);
-	Mix_VolumeMusic(100);
 
 	input = InputData();
 	input.SetScreenSize(Vec2D(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -38,9 +32,33 @@ void Game::Run()
 	InitMenu();
 	InitGame();
 
+<<<<<<< HEAD
+=======
+
+	// --- AUDIO ---
+#pragma region Audio
+	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
+		throw "No s'ha pogut inicialitzar SDL_Mixer";
+	}
+
+	Mix_Music* soundtrack{ Mix_LoadMUS("../../res/au/mainTheme.mp3") };
+	if (!soundtrack) throw "No s'ha pogut carregar l'audio";
+	Mix_PlayMusic(soundtrack, -1);
+	Mix_VolumeMusic( 0);
+	
+	
+#pragma endregion
+
+	// --- GAME VARIABLES ---
+	bool isKeySPressed = false;
+	bool rightmousePressed = false;
+	// --- GAME LOOP ---
+	SDL_Event event;
+	bool isRunning = true;
+
+>>>>>>> parent of a257b16... AA2 Terminado
 	while (_gameState != GameState::EXIT)
 	{
-
 		UpdateInput();
 		switch (_gameState)
 		{
@@ -77,10 +95,13 @@ void Game::InitSDL()
 	//Initialize renderer color
 	SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
 
+<<<<<<< HEAD
 	//Music
 	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
 		throw "No s'ha pogut inicialitzar SDL_Mixer";
 	}
+=======
+>>>>>>> parent of a257b16... AA2 Terminado
 
 	//-->SDL_Image
 	const Uint8 imgFlags{ IMG_INIT_PNG | IMG_INIT_JPG };
@@ -155,10 +176,13 @@ void Game::InitMenu()
 
 	_Rects[Txtr_BTN_Sound] = { (SCREEN_WIDTH / 4 - tmpSurf->w / 2), 500, tmpSurf->w, tmpSurf->h };
 
-	SDL_FreeSurface(tmpSurf);
-
 	_Textures[Txtr_BTN_Sound] = _Textures[Txtr_BTN_Sound_On];
 
+<<<<<<< HEAD
+=======
+	SDL_FreeSurface(tmpSurf);
+
+>>>>>>> parent of a257b16... AA2 Terminado
 	TTF_CloseFont(font);
 
 }
@@ -223,38 +247,77 @@ void Game::UpdateInput()
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
-
 		switch (event.type)
 		{
 		case SDL_QUIT:
-			input.SetKeyValue(InputKeys::QUIT, true);
+			_gameState = GameState::EXIT;
 			break;
+
 		case SDL_KEYDOWN:
-			if (event.key.keysym.sym == SDLK_ESCAPE) input.SetKeyValue(InputKeys::ESC, true);
-
-			if (event.key.keysym.sym == SDLK_w) input.SetKeyValue(InputKeys::W, true);
-			if (event.key.keysym.sym == SDLK_s) input.SetKeyValue(InputKeys::S, true);
-			if (event.key.keysym.sym == SDLK_d) input.SetKeyValue(InputKeys::D, true);
-			if (event.key.keysym.sym == SDLK_a) input.SetKeyValue(InputKeys::A, true);
-
-			if (event.key.keysym.sym == SDLK_UP)    input.SetKeyValue(InputKeys::UPARROW, true);
-			if (event.key.keysym.sym == SDLK_DOWN)  input.SetKeyValue(InputKeys::DOWNARROW, true);
-			if (event.key.keysym.sym == SDLK_RIGHT) input.SetKeyValue(InputKeys::RIGHTARROW, true);
-			if (event.key.keysym.sym == SDLK_LEFT)  input.SetKeyValue(InputKeys::LEFTARROW, true);
-
+			switch (event.key.keysym.sym)
+			{
+			case SDLK_ESCAPE:
+				input.SetKeyValue(InputKeys::ESC, true);
+				break;
+			case SDLK_w:
+				input.SetKeyValue(InputKeys::W, true);
+				break;
+			case SDLK_d:
+				input.SetKeyValue(InputKeys::D, true);
+				break;
+			case SDLK_a:
+				input.SetKeyValue(InputKeys::A, true);
+				break;
+			case SDLK_s:
+				input.SetKeyValue(InputKeys::S, true);
+				break;
+			case SDLK_UP:
+				input.SetKeyValue(InputKeys::UPARROW, true);
+				break;
+			case SDLK_LEFT:
+				input.SetKeyValue(InputKeys::LEFTARROW, true);
+				break;
+			case SDLK_RIGHT:
+				input.SetKeyValue(InputKeys::RIGHTARROW, true);
+				break;
+			case SDLK_DOWN:
+				input.SetKeyValue(InputKeys::DOWNARROW, true);
+				break;
+			default:
+				break;
+			}
 			break;
 		case SDL_KEYUP:
-			if (event.key.keysym.sym == SDLK_ESCAPE) input.SetKeyValue(InputKeys::ESC, false);
-
-			if (event.key.keysym.sym == SDLK_w) input.SetKeyValue(InputKeys::W, false);
-			if (event.key.keysym.sym == SDLK_s) input.SetKeyValue(InputKeys::S, false);
-			if (event.key.keysym.sym == SDLK_d) input.SetKeyValue(InputKeys::D, false);
-			if (event.key.keysym.sym == SDLK_a) input.SetKeyValue(InputKeys::A, false);
-
-			if (event.key.keysym.sym == SDLK_UP)    input.SetKeyValue(InputKeys::UPARROW, false);
-			if (event.key.keysym.sym == SDLK_DOWN)  input.SetKeyValue(InputKeys::DOWNARROW, false);
-			if (event.key.keysym.sym == SDLK_RIGHT) input.SetKeyValue(InputKeys::RIGHTARROW, false);
-			if (event.key.keysym.sym == SDLK_LEFT)  input.SetKeyValue(InputKeys::LEFTARROW, false);
+			switch (event.key.keysym.sym)
+			{
+			case SDLK_ESCAPE:
+				input.SetKeyValue(InputKeys::ESC, false);
+				break;
+			case SDLK_w:
+				input.SetKeyValue(InputKeys::W, false);
+				break;
+			case SDLK_d:
+				input.SetKeyValue(InputKeys::D, false);
+				break;
+			case SDLK_a:
+				input.SetKeyValue(InputKeys::A, false);
+				break;
+			case SDLK_s:
+				input.SetKeyValue(InputKeys::S, false);
+				break;
+			case SDLK_UP:
+				input.SetKeyValue(InputKeys::UPARROW, false);
+				break;
+			case SDLK_LEFT:
+				input.SetKeyValue(InputKeys::LEFTARROW, false);
+				break;
+			case SDLK_RIGHT:
+				input.SetKeyValue(InputKeys::RIGHTARROW, false);
+				break;
+			case SDLK_DOWN:
+				input.SetKeyValue(InputKeys::DOWNARROW, false);
+				break;
+			}
 			break;
 		case SDL_MOUSEMOTION:
 			input.SetMouseCoords(event.motion.x, event.motion.y);
@@ -272,10 +335,6 @@ void Game::UpdateInput()
 
 void Game::UpdateMenu()
 {
-	if (input.JustPressed(InputKeys::QUIT) == true) {
-		_gameState = GameState::EXIT;
-	}
-
 	_Rects[Txtr_Cursor].x += (((input.GetMouseCoords().x - (_Rects[Txtr_Cursor].w / 2)) - _Rects[Txtr_Cursor].x) / 10);
 	_Rects[Txtr_Cursor].y += (((input.GetMouseCoords().y - (_Rects[Txtr_Cursor].h / 2)) - _Rects[Txtr_Cursor].y) / 10);
 
@@ -309,17 +368,12 @@ void Game::UpdateMenu()
 
 void Game::UpdateGame()
 {
-
-	if (input.JustPressed(InputKeys::QUIT) == true) {
-		_gameState = GameState::EXIT;
-	}
-
-	if (input.JustPressed(InputKeys::ESC)) {
+	if (input.IsPressed(InputKeys::ESC)) {
 		ResetGame();
 		_gameState = GameState::MENU;
 	}
 	for (Player* pi : players) {
-		pi->Update(&input, sacks,players);
+		pi->Update(&input, sacks);
 	}
 
 	//Update Timer
@@ -328,7 +382,7 @@ void Game::UpdateGame()
 		timeDown -= *input.GetDeltaTime();
 
 	}
-	if (timeDown <= 0.f) _gameState = GameState::MENU;
+	if (timeDown <= 0.f) _gameState = GameState::EXIT;
 	else {
 		std::string s = F2StrFormat(timeDown, 0);
 		surfTimer = TTF_RenderText_Blended(font_timmer, s.c_str(), SDL_Color{ 0,0,0,255 });
@@ -411,6 +465,9 @@ void Game::CloseSDL()
 
 void Game::DestroyAllTextures()
 {
+
+
+
 	SDL_DestroyTexture(_Textures[Txtr_Players]);
 	SDL_DestroyTexture(_Textures[Txtr_Sacks]);
 	SDL_DestroyTexture(_Textures[Txtr_Cursor]);
@@ -447,7 +504,7 @@ void Game::ResetGame()
 		pi->SetScore(0);
 		//pi->reset
 	}
-	timeDown = totalGameTime;
+	timeDown = 60;
 
 
 }

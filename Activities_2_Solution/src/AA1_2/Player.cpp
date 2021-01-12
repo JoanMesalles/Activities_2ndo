@@ -15,9 +15,9 @@ Player::Player()
 
 }
 
-void Player::Update(InputData* input, std::vector<Sack*>& sacks, std::vector<Player*> players)
+void Player::Update(InputData* input, std::vector<Sack*>& sacks)
 {
-	Move(input, players);
+	Move(input);
 	UpdateSprite();
 	UpdateCollisions(sacks, input);
 }
@@ -68,7 +68,7 @@ void Player::SetScore(int sc)
 	score = sc;
 }
 
-bool Player::Move(InputData* input, std::vector<Player*> players)
+bool Player::Move(InputData* input)
 {
 	dir = EDirection::NONE;
 	Vec2D newposition = {position.x,position.y};
@@ -113,11 +113,13 @@ bool Player::Move(InputData* input, std::vector<Player*> players)
 		break;
 	default:
 		break;
+
 	}
 	if (newposition.x + position.w > input->GetScreenSize()->x || newposition.x < 0) newposition.x = position.x;
 	if (newposition.y + position.h > input->GetScreenSize()->y || newposition.y < 0) newposition.y = position.y;
 	if (newposition.y < linelimit) newposition.y = position.y;
 
+<<<<<<< HEAD
 	for (Player* pi : players) {
 		if(pi->GetType() != type){
 			if (Collisions::ConfirmCollision(Rect(newposition.x, newposition.y, position.w, position.h), pi->GetPosition())) {
@@ -130,6 +132,8 @@ bool Player::Move(InputData* input, std::vector<Player*> players)
 	}
 
 
+=======
+>>>>>>> parent of a257b16... AA2 Terminado
 	if (newposition.x != position.x || newposition.y != position.y) {
 		position.y = newposition.y;
 		position.x = newposition.x;

@@ -1,8 +1,6 @@
 #include "Renderer.h"
 
-//TODO quiero una referencia o ahora quiero un nombre ...
-//ERROR ....
-//const SDL_Rect* Renderer::Rect2SDL(const RECT* r) { return { r->x, r->y, r->w, r->h }; }
+Renderer* Renderer::renderer = nullptr;
 
 Renderer::Renderer()
 {
@@ -45,7 +43,16 @@ Renderer::~Renderer()
 	TTF_Quit();
 	SDL_Quit();
 
-};
+}
+
+Renderer* Renderer::getInstance()
+{
+	if (renderer == nullptr) {
+		renderer = new Renderer;
+	}
+	return renderer;
+}
+;
 
 void Renderer::Clear() { SDL_RenderClear(m_renderer); };
 
@@ -88,8 +95,7 @@ void Renderer::PushImage(const std::string& id, const std::string& idRect) {
 void Renderer::PushImage(const std::string& id, const Rect* rectPos)
 {
 	SDL_RenderCopy(m_renderer, m_textureData[id], nullptr, &MyRect2SDL(rectPos));
-}
-;
+};
 
 void Renderer::PushSprite(const std::string& id, const  std::string& idRectSprite, const  std::string& idRectPos) {
 

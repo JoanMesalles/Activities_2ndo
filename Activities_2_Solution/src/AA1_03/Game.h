@@ -1,23 +1,18 @@
 #pragma once
 
-#include "Player.h"
-#include "Sack.h" 
-#include "Renderer.h"
 #include "AudioManager.h"
+#include "Types.h"
+#include "Scene.h"
+
+enum class GameState { PLAYING, MENU, EXIT };
 
 class Game
 {
 private:
 	GameState _gameState;
-	InputData input;
-
-	Renderer renderer;
-
-	std::vector<Player*> players;
-	std::vector<Sack*> sacks;
 	float timeDown, totalGameTime;
 
-	AudioManager audioManager;
+	std::string s  = F2StrFormat(timeDown, 0);
 
 public:
 	Game();
@@ -27,18 +22,8 @@ public:
 
 private:
 
-	void InitMenu();
-	void InitGame();
-
 	void UpdateInput();
-	void UpdateMenu();
-	void UpdateGame();
-
-	void RenderMenu();
-	void RenderGame();
-
 	void ResetGame();
-	void AddPlayer(int texWidth, int texHeight, Player::PlayerType type);
-	void AddSacks();
+
 };
 
