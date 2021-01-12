@@ -1,7 +1,7 @@
 
 
 #include "BT.h"
-
+#include <stack>
 
 BT::BT() {
 	root = new Node(2);
@@ -93,25 +93,18 @@ bool BT::Exist(int key)
 //Implementar uno de los siguientes: PreOrderI, InOrderI o PostOrderI
 void BT::PreOrderI()
 {
-	Node* n = root;
-
-	if (n == nullptr)	return;
-
-	std::queue<Node*> q;
-
-	q.push(n);
-	while (!q.empty())
+	Node* current = root;
+	std::stack<Node*> nodes;
+	nodes.push(current);
+	while (!nodes.empty())
 	{
-		Node* temp = q.front();
-		q.pop();
-		
-		if (temp->left != nullptr)
-			q.push(temp->left);
-
-		if (temp->right != nullptr)
-			q.push(temp->right);
-
-		std::cout << temp->key << "-";
+		current = nodes.top();
+		nodes.pop();
+		std::cout << current->key << "-";
+		if (current->right)
+			nodes.push(current->right);
+		if (current->left)
+			nodes.push(current->left);
 	}
 }
 
