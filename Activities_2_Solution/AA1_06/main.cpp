@@ -25,7 +25,7 @@ int main() {
 
 	std::cout << t1.Min() << std::endl;
 
-	if (t1.IsBalanced(1))
+	if (t1.IsBalanced())
 		std::cout << "balanced" << std::endl;
 
 	//int x = t1.GetNumberNodesI();

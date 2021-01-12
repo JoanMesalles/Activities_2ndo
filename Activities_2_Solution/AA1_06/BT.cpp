@@ -156,11 +156,11 @@ int BT::Height(Node* n)
 
 
 //Implementar (AA106)
-bool BT::IsBalanced(int margin) {
-	return IsBalanced(root, margin);
+bool BT::IsBalanced() {
+	return IsBalanced(root);
 }
 
-bool BT::IsBalanced(Node* current, int margin)
+bool BT::IsBalanced(Node* current)
 {
 	int l = Height(current->left);
 	int r = Height(current->right);
@@ -171,9 +171,9 @@ bool BT::IsBalanced(Node* current, int margin)
 		bool l = true;
 		bool r = true;
 		if(current->left)
-			l = IsBalanced(current->left, margin);
+			l = IsBalanced(current->left);
 		if(current->right)
-			r = IsBalanced(current->right, margin);
+			r = IsBalanced(current->right);
 		if (l && r)
 			return true;
 		else return false;
