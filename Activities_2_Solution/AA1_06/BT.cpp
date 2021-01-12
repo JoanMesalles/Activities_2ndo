@@ -179,58 +179,6 @@ bool BT::IsBalanced(Node* current, int margin)
 		else return false;
 	}
 	else return false;
-
-
-	/*
-
-	bool l = IsBalanced(current->left);
-	bool r = IsBalanced(current->right);
-
-	//
-	if (!current) return true;
-	bool l = IsBalanced(current->left);
-	bool r = IsBalanced(current->right);
-
-
-	//
-	bool toulti = false;
-	if (!n->left) toulti = true;
-	if (!n->right) toulti = true;
-
-	bool l, r = false;
-	if (n->left)
-		l = IsBalanced(n->left, toulti);
-	if (n->right)
-		r = IsBalanced(n->right, toulti);
-
-	if (l || r) return true;
-	//
-
-
-	if (ultimatum && !n->left && !n->right)
-		return true;
-	bool l, r = false;
-	if (!current->left)
-		if (current->right)
-			return IsBalanced(current->right, true);
-	else
-		l = IsBalanced(current->right, false);
-	if (!current->right)
-		if (current->left)
-			return IsBalanced(current->left, true);
-	else
-		r = IsBalanced(current->left, false);
-	if (l && r) return true;
-
-
-	//
-	if (!n->left && n->right)
-		return IsBalanced(n->right, true);
-	if (n->left && !n->right)
-		return IsBalanced(n->left, true);
-	if (ultimatum && !n->left && !n->right)
-		return true;
-		*/
 }
 
 //Implementar (AA106)
