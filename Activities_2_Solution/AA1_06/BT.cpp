@@ -94,6 +94,7 @@ bool BT::Exist(int key)
 void BT::PreOrderI()
 {
 	Node* current = root;
+	if (current == nullptr) return;
 	std::stack<Node*> nodes;
 	nodes.push(current);
 	while (!nodes.empty())
