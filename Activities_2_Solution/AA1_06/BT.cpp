@@ -15,7 +15,17 @@ BT::BT() {
 };
 
 //Implementar (AA106)
-BT::~BT() {}
+BT::~BT()
+{
+	DestroyNode(root);
+}
+
+void BT::DestroyNode(Node* n)
+{
+	if (n->left) DestroyNode(n->left);
+	if (n->right) DestroyNode(n->right);
+	delete n;
+}
 
 void BT::PreOrder()
 {

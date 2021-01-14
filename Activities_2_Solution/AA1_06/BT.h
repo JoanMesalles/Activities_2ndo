@@ -31,6 +31,7 @@ private:
 	Node* Search(Node* n, int key);
 	int Height(Node* n);
 	bool IsBalanced(Node*);
+	void DestroyNode(Node* n);
 
 
 public:

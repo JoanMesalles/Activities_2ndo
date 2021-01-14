@@ -9,6 +9,7 @@ public:
 	Node* Search(int key);
 	bool Exist(int key);
 	int Max();
-	
+private:
+	bool Exist(Node* n, int key);
 };
 
