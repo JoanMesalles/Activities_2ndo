@@ -1,7 +1,6 @@
 #pragma once
 #include "BT.h"
-class MinHeapTree :
-    public BT
+class MinHeapTree : public BT
 {
 	MinHeapTree();
 	~MinHeapTree();
